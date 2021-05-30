@@ -1,2 +1,2 @@
 # wikibot
-the discord bot that searches and finds u wikipedia pages
+the discord bot that searches and finds you wikipedia pages
