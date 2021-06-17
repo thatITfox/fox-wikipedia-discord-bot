@@ -1,7 +1,16 @@
 import discord
 from discord.ext import commands
 import wikipedia
+import re
 
+# for minimizing the amount of words in the summary
+def first_n_words(text, n):
+    assert n > 0
+    match = re.search(r"(\S+\s){%s}\S+" % (n - 1), text)
+    if not match:
+        return text
+    else:
+        return text[match.span()[0]: match.span()[1]]
 
 class wiki_search(commands.Cog):
 
@@ -34,11 +43,9 @@ class wiki_search(commands.Cog):
                 search_summary = wikipedia.summary(search_page)
 
             print(search_page)
-            minimize = search_summary.split(' ')
-            if len(minimize) > 200:
+            if len(search_summary.split(' ')) > 200:
                 print("minimizing")
-                minimize = minimize[:199]
-                await ctx.channel.send(' '.join(minimize))
+                await ctx.channel.send(first_n_words(search_summary, 200))
                 await ctx.channel.send(f"to see the rest, see the page for this topic: {search_page.url}")
             else:
                 await ctx.channel.send(search_summary)
