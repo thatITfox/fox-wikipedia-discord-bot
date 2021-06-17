@@ -41,7 +41,7 @@ class wiki_search(commands.Cog):
                 await ctx.channel.send(' '.join(minimize))
                 await ctx.channel.send(f"to see the rest, see the page for this topic: {search_page.url}")
             else:
-                await ctx.channel.send(' '.join(search_summary))
+                await ctx.channel.send(search_summary)
         except Exception as e:
             print("ERROR: sorry can't find the page for that")
             await ctx.channel.send("sorry, i can't find the page for that")
