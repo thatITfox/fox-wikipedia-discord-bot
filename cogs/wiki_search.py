@@ -53,7 +53,24 @@ class wiki_search(commands.Cog):
             print("ERROR: sorry can't find the page for that")
             await ctx.channel.send("sorry, i can't find the page for that")
             await ctx.channel.send(search)
+    @commands.command()
+    async def random(self, ctx, language):
+        wikipedia.set_lang(language)
+        random_page = wikipedia.random()
 
+        try:
+            search_summary = random_page.summary
+        except:
+            search_summary = wikipedia.summary(random_page)
+        print(random_page)
+
+        if len(search_summary.split(' ')) > 200:
+                print("minimizing")
+                await ctx.channel.send(first_n_words(search_summary, 200))
+                await ctx.channel.send(f"to see the rest, see the page for this topic: {random_page.url}")
+        else:
+            await ctx.channel.send(random_page)
+            await ctx.channel.send(search_summary)
 
 def setup(client):
     client.add_cog(wiki_search(client))
